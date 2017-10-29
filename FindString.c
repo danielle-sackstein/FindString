@@ -7,7 +7,7 @@
 #define OK                0
 #define FILE_OPEN_FAILED (-1)
 
-void printLine(const char *printFileName, const char *line) {
+void printLine(char *printFileName, char *line) {
     if (printFileName != 0) {
         printf("%s:", printFileName);
     }
