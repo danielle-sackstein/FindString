@@ -4,17 +4,15 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#define OK                         	0
+#define OK                            0
 #define FILE_OPEN_FAILED            (-1)
 
 #define WRONG_NUMBER_OF_ARGUMENTS   "Wrong number of arguments." \
-                                    "You need to enter at least two" \
-                                    "arguments 1. a word to search for." \
-                                    "2.an existing file name. \n" \
+                                    " You need to enter at least two" \
+                                    " arguments 1. a word to search for." \
+                                    " 2.an existing file name. \n" \
 
-#define FILE_OPEN_ERROR            "There was a problem with reading one" \
-                                    "of your files." \
-                                    "check if your file name is correct.\n" \
+#define FILE_OPEN_ERROR            ": No such file or directory.\n" \
 
 
 /**
@@ -67,7 +65,7 @@ void findWordsInLine(char *printFileName, char *wordToFind, char *line)
 			/* We recognize the word only if the next character is a space, a new line
 			 * or the end of the line. The end of the line is detected after the loop */
 
-			if (letterCount == wordLength) {
+			if (letterCount == (int) wordLength) {
 				printLine(printFileName, line);
 				return;
 			}
@@ -76,7 +74,7 @@ void findWordsInLine(char *printFileName, char *wordToFind, char *line)
 			letterCount = 0;
 		}
 		else if (letterCount != -1) {
-			if (letterCount == wordLength) {
+			if (letterCount == (int) wordLength) {
 				/* If we have already seen all letters of wordToFind
 				 * then that word does not count because this character is not a space
 				 * Moreover, we cannot start a new search yet because the previous letter
@@ -97,7 +95,7 @@ void findWordsInLine(char *printFileName, char *wordToFind, char *line)
 	/* This handles the case that the wordToFind was at the end of the line and the line
 	 * did not end in a newline (the last line in the file)  */
 
-	if (letterCount == wordLength) {
+	if (letterCount == (int) wordLength) {
 		printLine(printFileName, line);
 	}
 }
@@ -170,6 +168,7 @@ int main(int argc, char *argv[])
 				fileName,
 				fileCount == 1 ? 0 : fileName);
 		if (error != OK) {
+			//TODO: print the file name before
 			fprintf(stderr, FILE_OPEN_ERROR);
 			return EXIT_FAILURE;
 		}
